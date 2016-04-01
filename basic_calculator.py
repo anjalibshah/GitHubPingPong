@@ -53,7 +53,7 @@ class Solution(object):
                         isoperator = false
                         operator = exprstack.pop()
                         operand = exprstack.pop()
-                        if operand == '+':
+                        if operator == '+':
                             exprstack.append(operand + ch)
                         else:
                             exprstack.append(operand - ch)
