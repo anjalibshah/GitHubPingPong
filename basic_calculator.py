@@ -1,10 +1,3 @@
-"""
-Anjali Shah and Roni Kobrosly
-4/1/2016
-
-https://leetcode.com/problems/basic-calculator/
-"""
-
 class Solution(object):
     def calculate(self, s):
         """
@@ -13,11 +6,11 @@ class Solution(object):
         """
         
         """
-        Remove all whitespaces from the expression string.
+        Remove all the whitespaces from the expression string.
         
         Build an expression stack. Push operands into the stack until you encounter an operator.
-        Upon encountering an operator, pull the last operand and perform the operation (based on the nature of
-        the operator) with the next operand in the expression string.
+        Upon encountering an operator, push the last operand and perform the operation based on the nature of
+        the operator with the next operand in the expression string.
         
         Special cases:
         
@@ -26,3 +19,17 @@ class Solution(object):
         repeated.
         
         """
+        
+        # Remove whitespace characters from string
+        s.replace(" ","")
+        
+        # Initialize expression stack
+        exprstack = []
+        
+        # Read the string from leftmost character to the rightmost
+        for ch in range(len(s)):
+            if ch == '(':
+                continue
+            else if isinstance(ch, int):
+                exprstack.append(ch)
+            else if 
