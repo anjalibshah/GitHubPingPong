@@ -40,11 +40,11 @@ class Solution(object):
                 if ch == ')':
                     paren_end = index
 
-            # Isolate characters contained with parenthesis
-            sub_list = list((paren_start + 1):paren_end)
+                # Isolate characters contained with parenthesis
+                sub_list = list((paren_start + 1):paren_end)
 
-            # This is where the recursion would happen. 
-            calculate(sub_list)
+                # This is where the recursion would happen. 
+                calculate(sub_list)
         else:
             isoperator = false
             for ch in range(len(expression)):
