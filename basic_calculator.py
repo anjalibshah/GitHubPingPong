@@ -14,33 +14,58 @@ class Solution(object):
         repeated.  
 """
 
-    # Remove whitespace characters from string 
-    s = "".join(s.split())
-
-    # Initialize expression stack
-    expression = list(s)
-
-    def calculate(self, expression):
+    def calculate(self, s):
         
-        # Find complete parenthesis and then recursively call "calculate function" until you
-        # only have a complete math expression to evaluate
+        # Remove whitespace characters from string 
+        s = "".join(s.split())
 
-        paren_start = 0
-        paren_end = 0
-        index = -1
-        for ch in range(len(expression)):
-            index += 1
-            if ch == '(':
-                paren_start = index
-                continue
-            if ch == ')':
-                paren_end = index
+        # Convert string to list
+        expression = list(s)
+        
+        # Initialize expression stack
+        exprstack = []
+        
+        if ['(', ')'] in expression:
+            # Find complete parenthesis and then recursively call "calculate function" until you
+            # only have a complete math expression to evaluate
 
-        # Isolate characters contained with parenthesis
-        sub_list = expression[(paren_start + 1):paren_end]
+            paren_start = 0
+            paren_end = 0
+            index = -1
+            for ch in range(len(expression)):
+                index += 1
+                if ch == '(':
+                    paren_start = index
+                    continue
+                if ch == ')':
+                    paren_end = index
 
-        # This is where the recursion would happen. 
-        calculate(sub_list)
+            # Isolate characters contained with parenthesis
+            sub_list = list((paren_start + 1):paren_end)
+
+            # This is where the recursion would happen. 
+            calculate(sub_list)
+        else:
+            isoperator = false
+            for ch in range(len(expression)):
+                if isinstance(ch, int):
+                    if isoperator == true:
+                        isoperator = false
+                        operator = exprstack.pop()
+                        operand = exprstack.pop()
+                        if operand == '+':
+                            exprstack.append(operand + ch)
+                        else:
+                            exprstack.append(operand - ch)
+                    else:
+                        exprstack.append(ch)
+                else if ch == '+' or ch == '-':
+                    isoperator = true
+                    exprstack.append(ch)
+        
+        if len(exprstack) == 1:
+            return exprstack.pop()
+                
 
 
 
