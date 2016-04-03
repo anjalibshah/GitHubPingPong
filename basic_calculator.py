@@ -14,57 +14,42 @@ class Solution(object):
         repeated.  
 """
 
-    def calculate(self, s):
-        
-        # Remove whitespace characters from string 
-        s = "".join(s.split())
-
-        # Convert string to list
-        expression = list(s)
-        
-        # Initialize expression stack
-        exprstack = []
-        
-        if ['(', ')'] in expression:
-            # Find complete parenthesis and then recursively call "calculate function" until you
-            # only have a complete math expression to evaluate
-
-            paren_start = 0
-            paren_end = 0
-            index = -1
-            for ch in range(len(expression)):
-                index += 1
-                if ch == '(':
-                    paren_start = index
-                    continue
-                if ch == ')':
-                    paren_end = index
-
-                # Isolate characters contained with parenthesis
-                sub_list = list((paren_start + 1):paren_end)
-
-                # This is where the recursion would happen. 
-                calculate(sub_list)
+    def eval_sublist(self, exprstack):  
+    cal_total = 0
+    sign = 1
+    for i in range(len(exprstack)):
+        next_item = exprstack.pop(0)
+        if next_item[0] in ('-','+','') and next_item[1:].isdigit() or next_item.isdigit():
+            cal_total += sign * int(next_item)
         else:
-            isoperator = false
-            for ch in range(len(expression)):
-                if isinstance(ch, int):
-                    if isoperator == true:
-                        isoperator = false
-                        operator = exprstack.pop()
-                        operand = exprstack.pop()
-                        if operator == '+':
-                            exprstack.append(operand + ch)
-                        else:
-                            exprstack.append(operand - ch)
-                    else:
-                        exprstack.append(ch)
-                else if ch == '+' or ch == '-':
-                    isoperator = true
-                    exprstack.append(ch)
+            if next_item == '+':
+                sign = 1
+            else:
+                sign = -1
+    return cal_total
+ def calculate(self, s):
         
-        if len(exprstack) == 1:
-            return exprstack.pop()
+    # Remove whitespace characters from string 
+    s = s.replace(" ","")
+
+    # Convert string to list
+    expression = re.split(r"(\(|\)|\+|\-)", s)
+    expression = list(filter(None, expression))
+           
+    # Initialize expression stack
+    exprstack = []
+    sub_list = []
+                
+    for ch in range(len(expression)):
+        if expression[ch] == ')':
+            item = exprstack.pop()
+            while  item != '(':
+                sub_list.insert(0,item)
+                item = exprstack.pop()
+            exprstack.append(str(self.eval_sublist(sub_list)))
+        else:
+            exprstack.append(expression[ch])
+    return self.eval_sublist(exprstack)
                 
 
 
